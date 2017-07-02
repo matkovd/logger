@@ -27,7 +27,7 @@ func GetByID(id int64) models.Log {
 	if err != nil {
 		panic(err)
 	}
-	query := fmt.Sprintf("Select Address,Status,Message from logs where ID=%d);", id)
+	query := fmt.Sprintf("Select Address,Status,Message from logs where ID=%d;", id)
 	fmt.Println(query)
 	rows, err := db.Query(query)
 	var from string
@@ -51,7 +51,7 @@ func GetByStatus(status string) []models.Log {
 	if err != nil {
 		panic(err)
 	}
-	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where Status=%s);", status)
+	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where Status=%s;", status)
 	rows, err := db.Query(query)
 	var logs []models.Log
 	var from string
@@ -74,7 +74,7 @@ func GetByFrom(from string) []models.Log {
 	if err != nil {
 		panic(err)
 	}
-	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where From=%s);", from)
+	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where From=%s;", from)
 	rows, err := db.Query(query)
 	var logs []models.Log
 	var fr string
@@ -97,7 +97,7 @@ func GetByMessage(message string) []models.Log {
 	if err != nil {
 		panic(err)
 	}
-	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where Message=%s);", message)
+	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where Message=%s;", message)
 	rows, err := db.Query(query)
 	var logs []models.Log
 	var from string
