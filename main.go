@@ -18,6 +18,7 @@ func data(w http.ResponseWriter, r *http.Request) {
 
 func findByID(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.URL.Path[1:])
+	fmt.Fprintf(w, string(id))
 	if err != nil {
 		panic(err)
 	}
@@ -28,8 +29,8 @@ func findByID(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintf(w, string(logsMarshalled))
 }
+
 func main() {
-	http.HandleFunc("/", handler)
-	http.HandleFunc("/id", findByID)
+	http.HandleFunc("/", findByID)
 	http.ListenAndServe(":8080", nil)
 }
