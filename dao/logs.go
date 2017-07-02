@@ -8,7 +8,7 @@ import (
 
 const SQL_CONNECT_STRING = "root:test@tcp(localhost)/logs"
 
-func insert(log models.Log) {
+func Insert(log models.Log) {
 	db, err := sql.Open("mysql", SQL_CONNECT_STRING)
 	if err != nil {
 		panic(err)
