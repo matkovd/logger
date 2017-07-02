@@ -51,7 +51,7 @@ func GetByStatus(status string) []models.Log {
 	if err != nil {
 		panic(err)
 	}
-	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where Status=%s;", status)
+	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where Status='%s';", status)
 	rows, err := db.Query(query)
 	if err != nil {
 		panic(err)
