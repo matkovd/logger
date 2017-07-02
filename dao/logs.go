@@ -77,7 +77,7 @@ func GetByFrom(from string) []models.Log {
 	if err != nil {
 		panic(err)
 	}
-	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where From=%s;", from)
+	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where From='%s';", from)
 	rows, err := db.Query(query)
 	if err != nil {
 		panic(err)
@@ -103,7 +103,7 @@ func GetByMessage(message string) []models.Log {
 	if err != nil {
 		panic(err)
 	}
-	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where Message=%s;", message)
+	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where Message='%s';", message)
 	rows, err := db.Query(query)
 	if err != nil {
 		panic(err)

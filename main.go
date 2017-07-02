@@ -40,9 +40,20 @@ func findByStatus(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(logsMarshalled))
 }
 
+func findByMessage(w http.ResponseWriter, r *http.Request) {
+	message := r.URL.Path[9:]
+	logs := dao.GetByMessage(message)
+	logsMarshalled, err := json.Marshal(logs)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Fprintf(w, string(logsMarshalled))
+}
+
 func main() {
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/status/", findByStatus)
 	http.HandleFunc("/id/", findByID)
+	http.HandleFunc("/message/", findByMessage)
 	http.ListenAndServe(":8080", nil)
 }
