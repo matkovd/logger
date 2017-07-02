@@ -1,8 +1,8 @@
 package dao
 
 import (
-	"database/sql"
 	"../models"
+	"database/sql"
 	"fmt"
 )
 
@@ -18,7 +18,7 @@ func Insert(log models.Log) {
 	if err != nil {
 		panic(err)
 	}
-	db.Close();
+	db.Close()
 }
 
 func GetByID(id int64) models.Log {
@@ -56,7 +56,7 @@ func GetByStatus(status string) []models.Log {
 		if err := rows.Scan(&id, &from, &st, &message); err != nil {
 			panic(err)
 		}
-		logs = append(logs, models.Log{id, from, status, message});
+		logs = append(logs, models.Log{id, from, st, message})
 	}
 
 	return logs
@@ -75,10 +75,32 @@ func GetByFrom(from string) []models.Log {
 	var id int64
 	var message string
 	for rows.Next() {
-		if err := rows.Scan(&id, &from, &st, &message); err != nil {
+		if err := rows.Scan(&id, &fr, &status, &message); err != nil {
 			panic(err)
 		}
-		logs = append(logs, models.Log{id, fr, status, message});
+		logs = append(logs, models.Log{id, fr, status, message})
+	}
+
+	return logs
+}
+
+func GetByMessage(message string) []models.Log {
+	db, err := sql.Open("mysql", SQL_CONNECT_STRING)
+	if err != nil {
+		panic(err)
+	}
+	query := fmt.Sprintf("Select ID,From,Status,Message from logs where Message=%s);", message)
+	rows, err := db.Query(query)
+	var logs []models.Log
+	var from string
+	var status string
+	var id int64
+	var mes string
+	for rows.Next() {
+		if err := rows.Scan(&id, &from, &status, &mes); err != nil {
+			panic(err)
+		}
+		logs = append(logs, models.Log{id, from, status, mes})
 	}
 
 	return logs
