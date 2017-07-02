@@ -17,7 +17,7 @@ func data(w http.ResponseWriter, r *http.Request) {
 }
 
 func findByID(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(r.URL.Path[1:])
+	id, err := strconv.Atoi(r.URL.Path[4:])
 	fmt.Fprintf(w, string(id))
 	if err != nil {
 		panic(err)
@@ -30,7 +30,19 @@ func findByID(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(logsMarshalled))
 }
 
+func findByStatus(w http.ResponseWriter, r *http.Request) {
+	status := r.URL.Path[8:]
+	logs := dao.GetByStatus(status)
+	logsMarshalled, err := json.Marshal(logs)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Fprintf(w, string(logsMarshalled))
+}
+
 func main() {
-	http.HandleFunc("/", findByID)
+	http.HandleFunc("/", handler)
+	http.HandleFunc("/status/", findByStatus)
+	http.HandleFunc("/id/", findByID)
 	http.ListenAndServe(":8080", nil)
 }

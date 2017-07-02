@@ -7,7 +7,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-const SQL_CONNECT_STRING = "root:test@tcp(localhost)/logs"
+const SQL_CONNECT_STRING = "root:test@tcp(localhost:3306)/logs"
 
 func Insert(log models.Log) {
 	db, err := sql.Open("mysql", SQL_CONNECT_STRING)
@@ -28,8 +28,10 @@ func GetByID(id int64) models.Log {
 		panic(err)
 	}
 	query := fmt.Sprintf("Select Address,Status,Message from logs where ID=%d;", id)
-	fmt.Println(query)
 	rows, err := db.Query(query)
+	if err != nil {
+		panic(err)
+	}
 	var from string
 	var status string
 	var message string
@@ -39,8 +41,6 @@ func GetByID(id int64) models.Log {
 		}
 	}
 	res := models.Log{id, from, status, message}
-	fmt.Println(from)
-
 	rows.Close()
 	db.Close()
 	return res
@@ -53,6 +53,9 @@ func GetByStatus(status string) []models.Log {
 	}
 	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where Status=%s;", status)
 	rows, err := db.Query(query)
+	if err != nil {
+		panic(err)
+	}
 	var logs []models.Log
 	var from string
 	var st string
@@ -76,6 +79,9 @@ func GetByFrom(from string) []models.Log {
 	}
 	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where From=%s;", from)
 	rows, err := db.Query(query)
+	if err != nil {
+		panic(err)
+	}
 	var logs []models.Log
 	var fr string
 	var status string
@@ -99,6 +105,9 @@ func GetByMessage(message string) []models.Log {
 	}
 	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where Message=%s;", message)
 	rows, err := db.Query(query)
+	if err != nil {
+		panic(err)
+	}
 	var logs []models.Log
 	var from string
 	var status string
