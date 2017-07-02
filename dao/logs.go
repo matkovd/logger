@@ -61,3 +61,25 @@ func GetByStatus(status string) []models.Log {
 
 	return logs
 }
+
+func GetByFrom(from string) []models.Log {
+	db, err := sql.Open("mysql", SQL_CONNECT_STRING)
+	if err != nil {
+		panic(err)
+	}
+	query := fmt.Sprintf("Select ID,From,Status,Message from logs where From=%s);", from)
+	rows, err := db.Query(query)
+	var logs []models.Log
+	var fr string
+	var status string
+	var id int64
+	var message string
+	for rows.Next() {
+		if err := rows.Scan(&id, &from, &st, &message); err != nil {
+			panic(err)
+		}
+		logs = append(logs, models.Log{id, fr, status, message});
+	}
+
+	return logs
+}
