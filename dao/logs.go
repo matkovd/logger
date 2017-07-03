@@ -9,13 +9,17 @@ import (
 
 const SQL_CONNECT_STRING = "root:test@tcp(localhost:3306)/logs"
 
-func Insert(log models.Log) {
+func GetDatabase() *sql.DB {
 	db, err := sql.Open("mysql", SQL_CONNECT_STRING)
 	if err != nil {
 		panic(err)
 	}
+	return db
+}
+func Insert(log models.Log) {
+	db := GetDatabase()
 	query := fmt.Sprintf("Insert into logs values( %d, %s, %s, %s);", log.ID, log.From, log.Status, log.Message)
-	_, err = db.Exec(query)
+	_, err := db.Exec(query)
 	if err != nil {
 		panic(err)
 	}
@@ -23,10 +27,7 @@ func Insert(log models.Log) {
 }
 
 func GetByID(id int64) models.Log {
-	db, err := sql.Open("mysql", SQL_CONNECT_STRING)
-	if err != nil {
-		panic(err)
-	}
+	db := GetDatabase()
 	query := fmt.Sprintf("Select Address,Status,Message from logs where ID=%d;", id)
 	rows, err := db.Query(query)
 	if err != nil {
@@ -47,10 +48,7 @@ func GetByID(id int64) models.Log {
 }
 
 func GetByStatus(status string) []models.Log {
-	db, err := sql.Open("mysql", SQL_CONNECT_STRING)
-	if err != nil {
-		panic(err)
-	}
+	db := GetDatabase()
 	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where Status='%s';", status)
 	rows, err := db.Query(query)
 	if err != nil {
@@ -73,10 +71,7 @@ func GetByStatus(status string) []models.Log {
 }
 
 func GetByFrom(from string) []models.Log {
-	db, err := sql.Open("mysql", SQL_CONNECT_STRING)
-	if err != nil {
-		panic(err)
-	}
+	db := GetDatabase()
 	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where Address='%s';", from)
 	rows, err := db.Query(query)
 	if err != nil {
@@ -99,10 +94,7 @@ func GetByFrom(from string) []models.Log {
 }
 
 func GetByMessage(message string) []models.Log {
-	db, err := sql.Open("mysql", SQL_CONNECT_STRING)
-	if err != nil {
-		panic(err)
-	}
+	db := GetDatabase()
 	query := fmt.Sprintf("Select ID,Address,Status,Message from logs where Message='%s';", message)
 	rows, err := db.Query(query)
 	if err != nil {
