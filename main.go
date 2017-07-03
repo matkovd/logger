@@ -13,10 +13,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "working")
 }
 
-func data(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "{'data':'working'}")
-}
-
 func insert(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	var log models.Log
