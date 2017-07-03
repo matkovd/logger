@@ -17,7 +17,7 @@ func data(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "{'data':'working'}")
 }
 
-func Insert(w http.ResponseWriter, r *http.Request) {
+func insert(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	var log models.Log
 	err := decoder.Decode(&log)
@@ -79,5 +79,6 @@ func main() {
 	http.HandleFunc("/status/", findByStatus)
 	http.HandleFunc("/id/", findByID)
 	http.HandleFunc("/message/", findByMessage)
+	http.HandleFunc("/insert/", insert)
 	http.ListenAndServe(":8080", nil)
 }
