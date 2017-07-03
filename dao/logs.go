@@ -41,8 +41,8 @@ func GetByID(id int64) models.Log {
 		}
 	}
 	res := models.Log{id, from, status, message}
-	rows.Close()
-	db.Close()
+	defer rows.Close()
+	defer db.Close()
 	return res
 }
 
@@ -67,8 +67,8 @@ func GetByStatus(status string) []models.Log {
 		}
 		logs = append(logs, models.Log{id, from, st, message})
 	}
-	rows.Close()
-	db.Close()
+	defer rows.Close()
+	defer db.Close()
 	return logs
 }
 
@@ -93,8 +93,8 @@ func GetByFrom(from string) []models.Log {
 		}
 		logs = append(logs, models.Log{id, fr, status, message})
 	}
-	rows.Close()
-	db.Close()
+	defer rows.Close()
+	defer db.Close()
 	return logs
 }
 
@@ -119,7 +119,7 @@ func GetByMessage(message string) []models.Log {
 		}
 		logs = append(logs, models.Log{id, from, status, mes})
 	}
-	rows.Close()
-	db.Close()
+	defer rows.Close()
+	defer db.Close()
 	return logs
 }
