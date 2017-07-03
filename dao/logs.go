@@ -19,7 +19,7 @@ func Insert(log models.Log) {
 	if err != nil {
 		panic(err)
 	}
-	db.Close()
+	defer db.Close()
 }
 
 func GetByID(id int64) models.Log {
