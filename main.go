@@ -2,6 +2,7 @@ package main
 
 import (
 	"./dao"
+	"./models"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -9,11 +10,23 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+	fmt.Fprintf(w, "working")
 }
 
 func data(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "{'data':'working'}")
+}
+
+func Insert(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
+	var log models.Log
+	err := decoder.Decode(&log)
+	if err != nil {
+		panic(err)
+	}
+	defer r.Body.Close()
+	dao.Insert(log)
+	w.Write([]byte("OK"))
 }
 
 func findByID(w http.ResponseWriter, r *http.Request) {
