@@ -71,10 +71,10 @@ func findByFrom(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", handler)
+	http.HandleFunc("/id/", findByID)
 	http.HandleFunc("/from/", findByFrom)
 	http.HandleFunc("/status/", findByStatus)
-	http.HandleFunc("/id/", findByID)
-	http.HandleFunc("/message/", findByMessage)
 	http.HandleFunc("/insert/", insert)
+	http.HandleFunc("/message/", findByMessage)
 	http.ListenAndServe(":8080", nil)
 }
